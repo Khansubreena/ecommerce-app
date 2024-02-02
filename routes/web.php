@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\HomeController;
+use App\Http\Controllers\admin\CategoryContoller;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,9 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/dashboard',[HomeController::class,'index'])->name('admin.dashboard');
         Route::get('/logout',[HomeController::class,'logout'])->name('admin.logout');
 
+            //CATEGORY rOUTE
+        Route::get('/categories/create',[CategoryContoller::class,'create'])->name('admin.category.create');
+        Route::post('/categories',[CategoryContoller::class,'store'])->name('categories.store');
     });
 
     
