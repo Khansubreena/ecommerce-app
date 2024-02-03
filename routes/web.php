@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\CategoryContoller;
+use Illuminate\Http\Request; // Add this line for the Request class
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,22 @@ Route::group(['prefix' => 'admin'], function(){
             //CATEGORY rOUTE
         Route::get('/categories/create',[CategoryContoller::class,'create'])->name('admin.category.create');
         Route::post('/categories',[CategoryContoller::class,'store'])->name('categories.store');
+
+        Route::get('/categories/create',[CategoryContoller::class,'create'])->name('admin.category.create');
+
+
+        Route::get('/getSlug',function(Request $request){
+            $slug = '';
+            if (!empty($request->title)){
+
+                $slug = Str::slug($request->title);
+            }
+            return response()->json([
+                'status' => true,
+                'slug' => $slug
+            ]);
+        })->name('getSlug');
+
     });
 
     

@@ -34,7 +34,8 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="slug">Slug</label>
-                                <input type="text" name="slug" id="slug" class="form-control" placeholder="Slug">	
+                                <input type="text" readonly
+                                 name="slug" id="slug" class="form-control" placeholder="Slug">	
                                 <p></p>	
                             </div>
                         </div>	
@@ -77,18 +78,36 @@
                     data: form.serializeArray(),
                     dataType: 'json',
                     success: function(response) {
+                    if(response['status'] == true) {
+
+                        $("#name").removeClass('is-invalid')
+                            .siblings('p')
+                            .removeClass('invalid-feedback').html("")
+
+                            $("#slug").removeClass('is-invalid')
+                           .siblings('p')
+                           .removeClass('invalid-feedback').html("")
+                    }else{
+
+
                         var errors = response['errors']
+
                         if(errors['name']){
                             $("#name").addClass('is-invalid')
                             .siblings('p')
                             .addClass('invalid-feedback').html(errors['name'])
+
+
+                            $("#slug").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback').html("")
                         }
                         else{
-                           
+                        
                             $("#name").removeClass('is-invalid')
                             .siblings('p')
                             .removeClass('invalid-feedback').html("")
-                        
+
                         }
                         if(errors['slug']){
                             $("#slug").addClass('is-invalid')
@@ -96,17 +115,38 @@
                             .addClass('invalid-feedback').html(errors['slug'])
                         }
                         else{
-                           
-                           $("#slug").removeClass('is-invalid')
-                           .siblings('p')
-                           .removeClass('invalid-feedback').html("")
-                       
-                       }
+                        
+                        $("#slug").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback').html("")
+
+                        }
                         // Handle the success response
+                    }
+                       
                     },
                     error: function(jqXHR, exception) {
                         console.log('Something went wrong');
                     }
+                });
+            });
+
+            $("#name").change(function() {
+
+                 element = $(this);
+                $.ajax({
+                        url: '{{ route('getSlug') }}',
+                        type: 'get',
+                        data: {title:element.val()},
+                        dataType: 'json',
+                        success: function(response) {
+                            
+                            if(response["status"] = true ){
+
+                                $("#slug").val(response["slug"]);
+                            }
+
+                        }
                 });
             });
     </script>
