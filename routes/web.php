@@ -40,6 +40,7 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/logout',[HomeController::class,'logout'])->name('admin.logout');
 
             //CATEGORY rOUTE
+        Route::get('/categories',[CategoryContoller::class,'index'])->name('categories.index');
         Route::get('/categories/create',[CategoryContoller::class,'create'])->name('admin.category.create');
         Route::post('/categories',[CategoryContoller::class,'store'])->name('categories.store');
 
