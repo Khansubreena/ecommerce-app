@@ -10,7 +10,7 @@
                 <h1>Create Page</h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="pages.html" class="btn btn-primary">Back</a>
+                <a href="{{ route('categories.index')}}" class="btn btn-primary">Back</a>
             </div>
         </div>
     </div>
@@ -53,8 +53,7 @@
             </div>
             <div class="pb-5 pt-3">
                 <button type="submit" class="btn btn-primary">Create</button>
-                <a href="{{ route('categories.index
-                ')}}" class="btn btn-outline-dark ml-3">Cancel</a>
+                <a href="{ route('categories.index')}}" class="btn btn-outline-dark ml-3">Cancel</a>
             </div>
         </form>
     </div>
@@ -71,7 +70,8 @@
             $("#categoryForm").submit(function(event) {
               
                 event.preventDefault();
-
+                var element = $(this)
+                $("button[type=sumit]").prop('disabled',true)
                 var form = $(this);
                 $.ajax({
                     url: '{{ route('categories.store') }}',
@@ -79,7 +79,9 @@
                     data: form.serializeArray(),
                     dataType: 'json',
                     success: function(response) {
+                        $("button[type=sumit]").prop('disabled',false)
                     if(response['status'] == true) {
+                        window.location.href="{{route('categories.index')}}";
 
                         $("#name").removeClass('is-invalid')
                             .siblings('p')
@@ -135,13 +137,14 @@
             $("#name").change(function() {
 
                  element = $(this);
+                 $("button[type=sumit]").prop('disabled',true)
                 $.ajax({
                         url: '{{ route('getSlug') }}',
                         type: 'get',
                         data: {title:element.val()},
                         dataType: 'json',
                         success: function(response) {
-                            
+                            $("button[type=sumit]").prop('disabled',false)
                             if(response["status"] = true ){
 
                                 $("#slug").val(response["slug"]);
